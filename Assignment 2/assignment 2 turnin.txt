@@ -1,0 +1,445 @@
+
+Project 2, CS31 Summer 2014 session A, Theodore Hung Nguyen, 704-156-701
+
+=====================================================================================================================================================
+
+There are eight problems in this assignment. If you are seriously interested in mastering the course materials, you will do every homework problem, 
+even though not every problem of this homework will be graded. You will submit your solution electronically. 
+
+=====================================================================================================================================================
+
+
+1.	Briefly explain the functions below with an example for each. You must provide your own examples and exclude the ones presented in the 
+lecture/textbook.
+
+.length(), .size() , .find(), .substr(), .erase(), .replace()
+
+To use any of this functions, for a string str, we would write str.(function)(<function arguments>), where (function) is replaced with any of
+these 6 functions, and <function arguments> are the arguments inputted into the function, if required.
+Also, #include <string> must be included in the header to access these functions
+
+Here is an example code dictating how each one is used
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	string str = "hello world."
+	cout << str.length() << endl;
+	cout << str.size() << endl;
+	cout << str.find("world") << endl;
+	cout << str.substr(2, 5) << endl;
+	cout << str.erase(2, 5) << endl;
+	str = "hello world.";
+	cout << str.replace(2, 5, "cs31") << endl;
+}
+
+using str.length() or str.size(), neither of them require any function arguments and will return a number that is the number of characters 
+in the string. In our case, where str = "hello world.", "hello world." contains 12 characters in the string, therefore both str.length() and 
+str.size() would return the number 12. This number, however, is of type size_t, NOT of type integer. They are more or less interchangable, except
+for the fact that size_t is an unsigned integer - it does not take negative values
+
+	
+str.find("world')
+
+the argument for .find() is the input string you want to find within the string str; the function will return the position in the string where
+the input string occurs. In this example, the first character of the string "world" is 'w', and this character is found at the string index 6 of the 
+string str, so the function would return 6.
+
+
+str.substr(2, 5)
+
+the argument for .substr() is as follows: the first argument is the index in str at which you want the substring to start - here we have 2 as that 
+position, so the substring will start at the first 'l' in hello; the second argument is the length of the substring you want - here we have 5, so 
+starting at index 2 in the string, the substring should be of length 5 and end at position 6 (since position 2 is included in the calculation).
+The function will return the string "llo w".
+
+-- putting in only one argument number, such as inputting str.substr(2), will give the string from the inputted position, 2, until the end of the 
+string. This - str.substr(2) - thus returns "llo world.", a substring from the second index of the string til the end of the string.
+
+
+str.erase(2, 5)
+
+the argument for .erase() can be viewed as a contrast to the argument for .substr(). Since the two here have the exact same input, str.erase(2, 5) will
+actually remove the substring "llo w" from str; it can be thought as erasing a substring from str that starts at index 2 and is 5 positions long. 
+The function will first modify the value stored in str by deleting the indicated substring; the new value of str is that without the indicated, erased
+substr. The new value for str is "heorld." Also, the function will return the new value of str, so str.erase(2, 5) will return "heorld."
+
+
+str.replace(2, 5, "cs31")
+
+the argument for .replace is also similar to the previous two; instead of just deleting the indicated substring from index 2 of length 5, latter is 
+deleted and then replaced with the third argument, which is the string to replace the deleted argument. 
+
+Since str.erase(2, 5) modified the value of str, we reset str = "hello world." The function will delete "llo w" and replace it with "cs31" and store 
+the value in str - the function also returns this value; the returned value is "hecs31orld."
+
+
+
+======================================================================================================================================================
+
+
+
+
+
+2.	Write a function ( mirror() ) that takes in a string parameter of any length and returns its mirror reverse. 
+
+Example:  
+input: ABCDEFGH
+return: HGFEDCBA
+
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+string mirror(string str);
+
+int main()
+{
+	string str = "ABCDEFGH";
+	string inverse = mirror(str);
+	cout << inverse << endl;		
+}
+
+string mirror(string str)
+{
+	string newstring = str;
+	for (int i = 0; size_t(i) < str.size(); i++)
+	{
+		newstring[i] = str[str.size() - 1 - i];
+	}
+
+	return newstring;
+}
+
+
+
+
+
+=====================================================================================================================================================
+
+
+
+
+
+3.	Write function ( truncate () ) which shortens a string to n characters. If the string is already shorter than n, the function should 
+not change the string. 
+
+/* i included the function with the main routine to point out the fact that it requires the pass by reference */
+#include <iostream>
+#include <string>
+using namespace std;
+
+void truncate(string& MyStr, int n);
+
+int main()
+{
+	string str = "ABCDE";
+	truncate(str, 6);
+	cout << str << endl;
+}
+
+/*this is how it should work b/c you wouldnt make a fcn w/o a main function -> need pass by reference */
+
+void truncate(string& MyStr, int n)	
+
+{
+	if (MyStr.size() < size_t(n))
+		return;
+	else
+	{
+		MyStr.erase(n, MyStr.size() - 1);
+		return;
+	}
+}
+
+
+/*this, the standalone function, will not work because it does not pass by reference: requires the ampersand */
+
+void truncate(string MyStr, int n)		
+{						
+	if (if (MyStr.size() < size_t(n))
+		return;
+	else
+	{
+		MyStr.erase(n, MyStr.size() - 1);
+		return;
+	}
+}
+
+
+==============================================================================================================================================
+
+
+
+
+
+4.	Explain concisely what the following program does:
+
+#include <iostream>
+#include <string>
+using namespace std;
+int main () 
+{
+string MyStr = " The future depends on what you do today. – Mahatma Gandhi";
+cout << "MyStr is: " <<MyStr<< endl;
+
+int i = MyStr.find("depends");
+
+string str = MyStr.substr(i);
+cout << "str   is: " << str<< endl;
+
+str = MyStr.substr(i,24);
+cout << "str   is: " << str<< endl;
+
+return 0;
+}
+
+/* creates a string variable called MyStr, gives it the value " The future depends on what you do today. - Mahatma Gandhi"
+outputs onto the screen "MyStr is:  The future depends on what you do today. - Mahatma Gandhi"
+creates an integer variable called i and gives it the value equal to the position of the first 'd' in the string, "depends", when it occurs in MyStr-> i = 12 
+creates a string variable called str and gives assigns the substring from position 12 til the end of the string
+so, str = "depends on what you do today. - Mahatma Gandhi"
+outputs "str   is: depends on what you do today. - Mahatma Gandhi"
+assigns str a new value, which is that of the substring that has an index beginning at 12 and has length 24 in MyStr - this is "depends on what you do t"
+outputs "str   is: depends on what you do t" onto the screen. 
+*/
+
+/* 
+outputs the following onto the screen:
+
+Mystr is: The future depends on what you do today. - Mahatma Gandhi
+str   is: depends on what you do today. - Mahatma Gandhi
+str   is: depends on what you do t
+
+*/
+
+
+
+========================================================================================================================================================
+
+
+
+
+5.	Write function (count) which takes in two parameters (a string and a single character). Your function should count the occurrences 
+of the single character in the string. 
+
+
+Prototype: 	int count(string MyStr, char c);
+
+Example:count("Supercalifragilisticexpialidocious", 'i');
+would return 7
+	
+
+
+#include <iostream>	
+#include <string>
+using namespace std;
+
+int count(string MyStr, char c);
+
+int main()
+{
+	string str = "Supercalifragilisticexpialidocious";
+	int number = count(str, 'i');
+	cout << number << endl;
+}
+
+int count(string MyStr, char c)
+{
+	int number = 0;
+	do
+	{
+		if (-1 != MyStr.find(c))
+		{
+			number++;
+			MyStr.erase(MyStr.find(c), 1);
+		}
+		else
+			break;
+	} while (true);
+	return number;
+}
+
+
+
+
+====================================================================================================================================================
+
+
+
+
+6.	Complete the following code in order to print out the sample given output: 
+	OUTPUT:
+
+sssssssssss
+ sssssssss
+  sssssss
+   sssss 
+    sss
+     s
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+int main()
+{
+	string MyStr = "sssssssssss";
+	cout << MyStr << endl;
+	for (int i = 0; i != (MyStr.size() - 1); i++)
+	{
+		MyStr.erase(MyStr.size() - 2, MyStr.size() - 1);
+		MyStr = " " + MyStr;
+		cout << MyStr << endl;
+	}
+	return 0;
+}
+
+
+
+
+Important note that you are not allowed to use character ‘s’ or any string containing ‘s’ such as “sss” other than MyStr. You are supposed
+ to use string library functions and process MyStr to print out the intended content. Note that hard-coding the exact output will result losing the entire credit for this question.
+
+
+
+
+==============================================================================================================================================================
+
+
+
+
+7.	Please explain in “one” sentence what does the following program do:
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	bool found = false;
+	string str = "A day without sunshine is like, you know, night.";
+
+	for(int i=0;i != str.size() ; i++)
+        {
+		if( str[i] == 'i' )
+		found = true;
+	}
+
+	if(found)
+        	cout << "I found an i!?!!" << endl;
+}
+
+
+
+
+
+/*
+The program searches for the character 'i' in the string, and, upon finding the first instance of the character, will stop searching and then 
+will output "I found an i!?!!".
+*/
+
+
+
+===========================================================================================================================================================
+
+
+
+
+8.	Complete the following code using only .find() and .replace() functions, in order to replace: 
+a.	‘pizza’ with ‘pasta’
+b.	‘Dad’ with ‘I’
+c.	‘made’ with ‘helped to make’
+
+Note that hard-coding the replacements instead of using the string library functions will result losing the entire credit for this 
+question.
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main () 
+{
+	string MyStr = "Dad made pizza last night!";
+	string str1  = "helped to make";
+	string str2  = "pasta";
+	string str3  = "I";
+	
+	MyStr.replace(MyStr.find("Dad"), 3, str3);
+	MyStr.replace(MyStr.find("pizza"), 5, str2);
+	MyStr.replace(MyStr.find("made"), 4, str1);
+
+
+	cout << "MyStr is: " <<MyStr << endl;
+			
+
+
+	return 0;
+}
+
+
+
+
+OR
+
+
+
+
+/*	Complete the following code using only.find() and.replace() functions, in order to replace :
+a.‘pizza’ with ‘pasta’
+b.‘Dad’ with ‘I’
+c.‘made’ with ‘helped to make’
+
+Note that hard - coding the replacements instead of using the string library functions will result losing the entire credit for this
+question.
+
+You should replace str1, str2 and str3 in the original string(MyStr) and then cout it.
+
+Output for part a)"Dad made pasta last night!"
+Output for part b)"I made pizza last night!"
+Output for part c)"Dad helped to make pizza last night!"*/
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	string MyStr = "Dad made pizza last night!";
+	string str1 = "helped to make";
+	string str2 = "pasta";
+	string str3 = "I";
+	string temp = MyStr;
+	
+	//output for part (a)
+	MyStr.replace(MyStr.find("pizza"), 5, str2);
+	cout << MyStr << endl;
+	MyStr = temp;
+
+	//output for part (b)
+	MyStr.replace(MyStr.find("Dad"), 3, str3);
+	cout << MyStr << endl;
+	MyStr = temp;
+
+	//output for part (c)
+	MyStr.replace(MyStr.find("made"), 4, str1);
+	cout << MyStr << endl;
+	MyStr = temp;
+
+	MyStr.replace(MyStr.find("Dad"), 3, str3);
+	MyStr.replace(MyStr.find("pizza"), 5, str2);
+	MyStr.replace(MyStr.find("made"), 4, str1);
+	
+	cout << "MyStr is: " << MyStr << endl;
+
+
+
+	return 0;
+}
